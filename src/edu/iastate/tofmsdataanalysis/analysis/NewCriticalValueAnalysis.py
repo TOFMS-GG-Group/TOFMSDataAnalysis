@@ -2,8 +2,8 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-alpha = 0.0001
-numIons = 1000
+alpha = 0.001
+numIons = 100000
 
 SquareRootOfCountsArray = np.linspace(0.5, 5.0, num=50)
 CountRateArray = SquareRootOfCountsArray**2
@@ -43,6 +43,9 @@ X = SquareRootOfCountsArray
 Y = NetCriticalValueArray
 
 Coefficient = np.polyfit(X, Y, 1)
+
+print(Coefficient)
+
 Poly1DFunction = np.poly1d(Coefficient)
 
 plt.plot(X, Y, 'yo', X, Poly1DFunction(X), '--k')
