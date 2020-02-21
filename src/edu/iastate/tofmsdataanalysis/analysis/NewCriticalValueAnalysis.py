@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 alpha = 0.0001
-numIons = 100000
+numIons = 1000
 
 SquareRootOfCountsArray = np.linspace(0.5, 5.0, num=50)
 CountRateArray = SquareRootOfCountsArray**2
@@ -23,27 +23,27 @@ SingleIonSignal = np.mean(SingleIonData)
 
 SISArrayNormalized = np.true_divide(SingleIonData, SingleIonSignal)
 
-CriticalValueArray = np.array([])
+NetCriticalValueArray = np.array([])
 
 for i in CountRateArray:
     Counts = np.random.poisson(i, numIons)
     CompoundArray = np.array([])
 
     for j in Counts:
-        Draws = np.random.normal(1, 1.5, j)
+        Draws = np.random.choice(SISArrayNormalized, j)
         Compound = sum(Draws)
         CompoundArray = np.append(CompoundArray, Compound)
         AverageCompound = np.mean(CompoundArray)
 
     Quantile = np.quantile(CompoundArray, (1 - alpha))
     NetCriticalValue = Quantile - AverageCompound
-    NetCriticalValueArray = np.append(NetCriticalValue, NetCriticalValue)
+    NetCriticalValueArray = np.append(NetCriticalValueArray, NetCriticalValue)
 
 X = SquareRootOfCountsArray
 Y = NetCriticalValueArray
 
 Coefficient = np.polyfit(X, Y, 1)
-Poly1DFunction = np.poly1d_fn(Coefficient)
+Poly1DFunction = np.poly1d(Coefficient)
 
 plt.plot(X, Y, 'yo', X, Poly1DFunction(X), '--k')
 
