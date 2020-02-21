@@ -68,5 +68,5 @@ class CriticalValueAnalysis:
             monte_carlo_data_results.append(iteration_data)
             monte_carlo_sum_results.append(sum)
 
-        # return monte_carlo_data_results
+
         return monte_carlo_sum_results
