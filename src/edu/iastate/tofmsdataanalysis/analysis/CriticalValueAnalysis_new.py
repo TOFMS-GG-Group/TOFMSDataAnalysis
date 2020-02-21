@@ -4,7 +4,7 @@ import random
 import threading
 
 
-class CriticalValueAnalysis:
+class CriticalValueAnalysis_new:
     # Generates a random Poisson distribution of size s and lambda l and returns the distribution as a list.
     @staticmethod
     def generate_poisson_dist(l, s):
