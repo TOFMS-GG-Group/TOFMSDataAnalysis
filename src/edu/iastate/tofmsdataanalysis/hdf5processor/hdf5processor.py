@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 hf = h5py.File('D:\\Test.h5', 'r')
 
+n1 = np.array(hf["PeakData"]["PeakData"])
 raw_peak_data = np.array(hf["PeakData"]["PeakData"])
 
 reshaped_peak_data = np.reshape(raw_peak_data, (100000, 286))
@@ -27,8 +28,10 @@ element_isotope_map = {
     'Fe': ['54Fe', '57Fe'],
     'Mn': ['55Mn']}
 
+n2 = np.reshape(n1, (100000, 286))
 element_summed_data_map = {}
 
+print(n2)
 for key, value in element_isotope_map.items():
     if len(value) == 1:
         element_summed_data_map.update({key: reshaped_peak_data_in_counts[:, isotopes_new.index(value[0])]})
@@ -49,3 +52,4 @@ plt.plot(element_summed_data_map.get('Cr'), label="Cr")
 plt.plot(element_summed_data_map.get('Fe'), label="Fe")
 plt.legend()
 plt.show()
+
