@@ -1,11 +1,10 @@
 import sys
-
 import h5py
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 
 
-def hdf5processor(filename):
+def process_signal_data(filename, element_isotope_map):
     hf = h5py.File(filename, 'r')
 
     n1 = np.array(hf["PeakData"]["PeakData"])
@@ -24,17 +23,9 @@ def hdf5processor(filename):
         isotopes_new[i] = str(isotopes[i]).replace('b', '').replace('[', '').replace(']', '').replace('+', '').replace(
             '\'',
             '')
-
-    element_isotope_map = {
-        'Ti': ['47Ti', '49Ti'],
-        'Cr': ['52Cr', '53Cr'],
-        'Fe': ['54Fe', '57Fe'],
-        'Mn': ['55Mn']}
-
     n2 = np.reshape(n1, (100000, 286))
     element_summed_data_map = {}
 
-    print(n2)
     for key, value in element_isotope_map.items():
         if len(value) == 1:
             element_summed_data_map.update({key: reshaped_peak_data_in_counts[:, isotopes_new.index(value[0])]})
@@ -50,15 +41,44 @@ def hdf5processor(filename):
 
             element_summed_data_map.update({key: new_summed_data})
 
-    plt.plot(element_summed_data_map.get('Ti'), label="Ti")
-    plt.plot(element_summed_data_map.get('Cr'), label="Cr")
-    plt.plot(element_summed_data_map.get('Fe'), label="Fe")
+    return element_summed_data_map
+
+
+def plot_elements(data):
+    for key, value in data.items():
+        plt.plot(data.get(key), label=key)
+
     plt.legend()
     plt.show()
 
 
+def save_dataset(filename, elements_list, element_data):
+    hf = h5py.File(filename, 'a')
+
+    asciiList = [n.encode("ascii", "ignore") for n in list(elements_list.keys())]
+    hf.create_dataset("spWork/ElementList", (len(asciiList), 1), 'S10', asciiList)
+
+    labels = [['Element', 'Isotope(s)']]
+
+    hf.create_dataset("spWork/IsotopesUsed", (len(asciiList), 1), 'S10', asciiList)
+
+    hf.close()
+
+
 def main(argv):
-    hdf5processor(argv[0])
+    elements = {
+        'Ti': ['47Ti', '49Ti'],
+        'Cr': ['52Cr', '53Cr'],
+        'Fe': ['54Fe', '57Fe'],
+        'Mn': ['55Mn']}
+
+    element_data = process_signal_data(
+        argv[0],
+        elements)
+
+    plot_elements(element_data)
+
+    save_dataset(argv[1], elements, element_data)
 
 
 if __name__ == "__main__":

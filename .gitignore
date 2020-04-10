@@ -130,3 +130,11 @@ dmypy.json
 /.idea/
 
 .DS_Store
+
+test_data/2018.11.14-16h02m12s_07_Effluent-Cs-1E5NPs.h5
+
+test_data/First-ISU-SIS-Hist.txt
+
+test_data/ISUSummedData.csv
+
+test_data/SIS-Hist.txt
