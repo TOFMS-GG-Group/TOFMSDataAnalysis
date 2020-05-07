@@ -2,8 +2,10 @@ import csv
 
 import numpy as np
 
-class CriticalValueAnalysis():
-    def calculate_critical_value(alpha, num_ions, filename):
+
+class CriticalValueAnalysis:
+    @staticmethod
+    def calculate_critical_value(self, alpha, num_ions, filename):
         print(alpha)
         print(num_ions)
         print(filename)
@@ -44,7 +46,7 @@ class CriticalValueAnalysis():
         # and then these random draws are summed together and stored in the cmpd_array, which
         # is the array of Cmpd_Poisson Values for all lambda values tested.
 
-        count = 0;
+        count = 0
 
         with np.nditer(cmpd_array, flags=['multi_index'], op_flags=['readwrite']) as it:
             for x in it:
@@ -53,6 +55,7 @@ class CriticalValueAnalysis():
                 count += 1
 
         l_c_array = np.array([])
+
         for i in range(0, len(CtRateArray)):
             OneLambdaArray = cmpd_array[i]
             avg_OneLambdaArray = np.mean(OneLambdaArray)
@@ -72,4 +75,3 @@ class CriticalValueAnalysis():
         # plt.xlim(0, 5)
         # plt.ylim(0, 25)
         # plt.show()
-
