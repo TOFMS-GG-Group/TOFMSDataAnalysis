@@ -1,10 +1,12 @@
 import h5py
+import os.path
+from os import path
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.random import randn
 
 
-class hdf5processor():
+class hdf5processor:
+    @staticmethod
     def process_signal_data(filename, element_isotope_map):
         hf = h5py.File(filename, 'r')
 
@@ -45,25 +47,61 @@ class hdf5processor():
 
         return element_summed_data_map
 
-    def plot_elements(self, data):
+    @staticmethod
+    def plot_elements(data):
         for key, value in data.items():
             plt.plot(data.get(key), label=key)
 
         plt.legend()
         plt.show()
 
-    def save_dataset(self, filename, elements_list, element_data):
-        hf = h5py.File(filename, 'a')
-
-        elements_list_ascii = [n.encode("ascii", "ignore") for n in list(elements_list.keys())]
-
-        elements_list_dataset = hf.create_dataset("spWork/ElementList", (len(elements_list_ascii), 1), data=elements_list_ascii, dtype=h5py.string_dtype())
-
-        # TODO Maybe find a way to convert this to ASCII or change them all the UTF8.
-        iostopes_used = np.array([[b'Element', b'Isotope(s)', b'Null', b'Null', b'Null'], [b'Ti', b'47Ti', b'49Ti', b'Null', b'Null']], dtype='|S10')
-
+    @staticmethod
+    def save_dataset(filename, critical_data_values, element_data, elements_isotope_mapping):
         dt = h5py.special_dtype(vlen=str)
 
-        hf.create_dataset("spWork/IsotopesUsed", iostopes_used.shape, data=iostopes_used, dtype=dt)
+        if path.exists(filename):
+            os.remove(filename)
+
+        hf = h5py.File(filename, 'a')
+
+        elements_list_ascii = [n.encode("ascii", "ignore") for n in list(elements_isotope_mapping.keys())]
+
+        elements_list_dataset = hf.create_dataset("spWork/ElementList", (len(elements_list_ascii), 1),
+                                                  data=elements_list_ascii, dtype=h5py.string_dtype())
+
+        isotopes_used = np.empty([len(elements_isotope_mapping) + 1, 4], dtype=dt)
+
+        isotopes_used.fill(b'Null')
+
+        isotopes_used[0, :] = [b'Element', b'Isotope(s)', b'Null', b'Null']
+
+        i = 1
+
+        # TODO Maybe find a way to convert this to ASCII or change them all the UTF8.
+        for key in elements_isotope_mapping.keys():
+            value = elements_isotope_mapping.get(key)
+
+            iso1 = b'Null'
+            iso2 = b'Null'
+            iso3 = b'Null'
+
+            print(key)
+            print(value)
+
+            if len(value) == 1:
+                iso1 = value[0]
+            elif len(value) == 2:
+                iso1 = value[0]
+                iso2 = value[1]
+            elif len(value) == 3:
+                iso1 = value[0]
+                iso2 = value[1]
+                iso3 = value[2]
+
+            isotopes_used[i, :] = [key, iso1, iso2, iso3]
+
+            i += 1
+
+        hf.create_dataset("spWork/IsotopesUsed", isotopes_used.shape, data=isotopes_used, dtype=dt)
 
         hf.close()
