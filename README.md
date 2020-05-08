@@ -7,7 +7,7 @@ This application is for preforming data analysis on time of flight mass spectrom
 
 HOW TO USE THIS
 ---------------
-1. Create your ```SIS.csv``` by making a csv file from the your ```SIS.txt``` file (Make sure to remove any not data like column titles).
+1. Create your ```SIS.csv``` by making a csv file from your ```SIS.txt``` file (Make sure to remove any not data like column titles).
 2. Create a ```config.json``` and structure it like the ```config-sample.json```. Make sure to fill out each parameter correctly with correct paths.
 3. Run `pip install -r requirements.txt` to install dependencies
 6. Run `python app.py "PATH_TO_THE_CONFIG_JSON"` e.g. (Windows) ```python app.py "C:\\Users\Tyler Jaacks\\Desktop\\config.json"``` (Mac) ```python app.py "/Users/tylerjaacks/Desktop/config.json```
