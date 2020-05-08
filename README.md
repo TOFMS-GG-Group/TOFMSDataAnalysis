@@ -3,7 +3,7 @@
 WHAT IS THIS?
 -------------
 
-This application is for preforming data analysis on time of flight mass spectrometery.
+This application is for preforming data analysis on time of flight mass spectrometery. Please refer to wiki to see throught explantion of the project and design goals.
 
 FILES NEEDED FOR THIS PROCESS
 -----------------------------
