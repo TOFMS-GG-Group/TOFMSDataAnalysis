@@ -1,6 +1,6 @@
 {
-  "alphaValue": 0.0001,
-  "numIons": 1000,
+  "alpha_values": [0.0001, 0.0010, 0.0032, 0.0100],
+  "num_ions": 1000,
 
   "isotope_element_mapping": {
     "Ti": ["47Ti", "49Ti"],
@@ -9,7 +9,7 @@
     "Mn": ["55Mn"]
   },
 
-  "sisFileLocation": "/Users/tylerjaacks/Documents/Projects/PyCharm Projects/TOFMSDataAnalysis/test_data/ISUSummedData.csv",
-  "signalDataLocation": "/Users/tylerjaacks/Documents/Projects/PyCharm Projects/TOFMSDataAnalysis/test_data/2018.11.14-16h02m12s_07_Effluent-Cs-1E5NPs.h5",
-  "outputLocation": "/Users/tylerjaacks/Desktop/Test.h5",
+  "sis_file_location": "/Users/tylerjaacks/Documents/Projects/PyCharm Projects/TOFMSDataAnalysis/test_data/ISUSummedData.csv",
+  "signal_file_location": "/Users/tylerjaacks/Documents/Projects/PyCharm Projects/TOFMSDataAnalysis/test_data/2018.11.14-16h02m12s_07_Effluent-Cs-1E5NPs.h5",
+  "output_file_location": "/Users/tylerjaacks/Desktop/Test.h5"
 }

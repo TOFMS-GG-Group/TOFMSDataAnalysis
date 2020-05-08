@@ -1,31 +1,36 @@
 import sys
 
 from edu.iastate.tofmsdataanalysis.analysis import critical_value_analysis
+from edu.iastate.tofmsdataanalysis.application import config
 from edu.iastate.tofmsdataanalysis.hdf5processor.hdf5processor import hdf5processor
 
 
-# arg0: alpha, arg1: numIons, arg2: sisLocation, arg3: signalData, arg4: outputLocation
 def main(argv):
-    elements_isotope_mapping = {
-        'Ti': ['47Ti', '49Ti'],
-        'Cr': ['52Cr', '53Cr'],
-        'Fe': ['54Fe', '57Fe'],
-        'Mn': ['55Mn']}
+    print("Loading configuration file.")
+
+    config_file = config.config(argv[0])
 
     print("Starting the critical analysis phase...")
 
-    critical_values = critical_value_analysis.CriticalValueAnalysis.calculate_critical_value(argv[0], argv[1], argv[2])
+    critical_values = [0, 0, 0, 0]
 
+    for i in range(len(config_file.alpha_values)):
+        critical_values[i] = critical_value_analysis \
+            .CriticalValueAnalysis.calculate_critical_value(config_file.alpha_values[i],
+                                                            config_file.num_ions,
+                                                            config_file.sis_file_location)
     print("Starting the signal processing phase...")
 
-    element_data = hdf5processor.process_signal_data(argv[3], elements_isotope_mapping)
+    element_data = hdf5processor.process_signal_data(config_file.signal_file_location,
+                                                     config_file.elements_isotope_mapping)
 
     print("Saving the data to an HDF5 file....")
 
-    hdf5processor.save_dataset(sys.argv[4],
+    hdf5processor.save_dataset(config_file.output_file_location,
+                               config_file.alpha_values,
                                critical_values,
                                element_data,
-                               elements_isotope_mapping)
+                               config_file.elements_isotope_mapping)
 
     print("Finished")
 

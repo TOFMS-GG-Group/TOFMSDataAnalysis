@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 
 class hdf5processor:
     @staticmethod
-    def process_signal_data(filename, element_isotope_map):
-        hf = h5py.File(filename, 'r')
+    def process_signal_data(input_filename, element_isotope_map):
+        hf = h5py.File(input_filename, 'r')
 
         n1 = np.array(hf["PeakData"]["PeakData"])
         raw_peak_data = np.array(hf["PeakData"]["PeakData"])
@@ -56,18 +56,17 @@ class hdf5processor:
         plt.show()
 
     @staticmethod
-    def save_dataset(filename, critical_data_values, element_data, elements_isotope_mapping):
+    def save_dataset(output_filename, alpha, critical_values, element_data, elements_isotope_mapping):
         dt = h5py.special_dtype(vlen=str)
 
-        if path.exists(filename):
-            os.remove(filename)
+        if path.exists(output_filename):
+            os.remove(output_filename)
 
-        hf = h5py.File(filename, 'a')
+        hf = h5py.File(output_filename, 'a')
 
         elements_list_ascii = [n.encode("ascii", "ignore") for n in list(elements_isotope_mapping.keys())]
 
-        elements_list_dataset = hf.create_dataset("spWork/ElementList", (len(elements_list_ascii), 1),
-                                                  data=elements_list_ascii, dtype=h5py.string_dtype())
+        hf.create_dataset("spWork/ElementList", (len(elements_list_ascii), 1), data=elements_list_ascii, dtype=h5py.string_dtype())
 
         isotopes_used = np.empty([len(elements_isotope_mapping) + 1, 4], dtype=dt)
 
@@ -103,5 +102,20 @@ class hdf5processor:
             i += 1
 
         hf.create_dataset("spWork/IsotopesUsed", isotopes_used.shape, data=isotopes_used, dtype=dt)
+
+        critical_value_data = np.empty([len(critical_values) + 1, 3], dtype=dt)
+
+        critical_value_data.fill(b'Null')
+
+        critical_value_data[0, :] = [b'alpha', b'slope', b'intercept']
+
+        for i in range(1, len(critical_value_data)):
+            alpha_value = alpha[i - 1]
+            slope_value = critical_values[i - 1][0]
+            intercept_value = critical_values[i - 1][1]
+
+            critical_value_data[i, :] = [alpha_value, slope_value, intercept_value]
+
+        hf.create_dataset("spWork/CriticalValueExp", critical_value_data.shape, data=critical_value_data, dtype=dt)
 
         hf.close()
