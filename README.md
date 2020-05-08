@@ -32,7 +32,7 @@ If you want to work on this application we’d love your pull requests and ticke
 CREDITS
 -------
 
-Tyler Jaacks <tjaacks@iastate> or <tylerjaacks@gmail.com>
+Tyler Jaacks <tjaacks@iastate.edu> or <tylerjaacks@gmail.com>
 
 Alexander Gundlach-Graham <alexgg@iastate.edu>
 
