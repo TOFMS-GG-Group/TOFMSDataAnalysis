@@ -18,7 +18,7 @@ HOW TO USE THIS
 1. Follow the instruction above creating the files need to start the operation.
 2. Run `pip install -r requirements.txt` to install dependencies
 3. Run `python app.py "PATH_TO_THE_CONFIG_JSON"` e.g. (Windows) ```python app.py "C:\\Users\Tyler Jaacks\\Desktop\\config.json"``` (Mac) ```python app.py "/Users/tylerjaacks/Desktop/config.json```
-4. Open the h5 file in h5 viewer and enjoy (We recommend you use H5Viewer do you can get it [here](https://www.hdfgroup.org/downloads/hdfview/)
+4. Open the h5 file in h5 viewer and enjoy (We recommend you use H5Viewer do you can get it [here])(https://www.hdfgroup.org/downloads/hdfview/)).
 
 
 DEVELOPMENT
