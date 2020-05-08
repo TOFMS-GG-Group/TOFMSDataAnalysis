@@ -35,3 +35,9 @@ CREDITS
 Tyler Jaacks <tjaacks@iastate> or <tylerjaacks@gmail.com>
 
 Alexander Gundlach-Graham <alexgg@iastate.edu>
+
+(Single-particle ICP-TOFMS with online microdroplet calibration for the simultaneous quantification of diverse nanoparticles in complex matrices)[https://pubs.rsc.org/en/content/articlelanding/2019/en/c9en00620f#!divAbstract]
+
+(Monte Carlo Simulation of Low-Count Signals in Time-of-Flight Mass Spectrometry and Its Application to Single-Particle Detection.)[https://www.ncbi.nlm.nih.gov/pubmed/30240561]
+
+
