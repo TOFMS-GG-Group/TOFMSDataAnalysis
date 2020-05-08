@@ -3,7 +3,10 @@ import csv
 import numpy as np
 
 
+# Contains the code for preform the critical analysis.
 class CriticalValueAnalysis:
+    # Calculates a critical value from a alpha value, number of ion signals, and a file with the single ion signals.
+    # This function returns an array with slope and intercept of the critical value.
     @staticmethod
     def calculate_critical_value(alpha, num_ions, filename):
         reader = csv.reader(open(filename, "r"), delimiter=",")

@@ -1,6 +1,7 @@
 import json
 
 
+# Loads the configuration JSON file and exposed the parameters.
 class config:
     alpha_values = None
     num_ions = None
@@ -10,6 +11,7 @@ class config:
     signal_file_location = None
     output_file_location = None
 
+    # Config constructor, loads each parameter value from the config file.
     def __init__(self, path):
         with open(path) as f:
             config_file = json.load(f)
